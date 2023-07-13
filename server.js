@@ -47,6 +47,8 @@ const connect = async () => {
 
 const itemSchema = new mongoose.Schema({
   value: String,
+  startDate: Date,
+  endDate: Date,
 });
 
 const Tasks = mongoose.model('Tasks', itemSchema);
@@ -62,7 +64,9 @@ app.get('/api/tasks', async (req, res) => {
 
 app.post('/api/tasks', async (req, res) => {
   try {
-    const newItem = new Tasks(req.body);
+    // const newItem = new Tasks(req.body);
+    const { value, startDate, endDate } = req.body;
+    const newItem = new Tasks({ value, startDate, endDate });
     await newItem.save();
     res.status(201).json(newItem);
   } catch (error) {
